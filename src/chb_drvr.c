@@ -719,7 +719,7 @@ static void chb_radio_init()
     case CHB_AT86RF230:
         // set default channel
         chb_set_channel(CHB_2_4GHZ_DEFAULT_CHANNEL);
-        //Serial.println("AT86RF230 2.4 GHz radio detected.");
+        Serial.println("AT86RF230 2.4 GHz radio detected.");
 
 #if (CHIBI_PROMISCUOUS == 0)
     // set autocrc mode
@@ -730,7 +730,7 @@ static void chb_radio_init()
     case CHB_AT86RF231:
         // set default channel
         chb_set_channel(CHB_2_4GHZ_DEFAULT_CHANNEL);
-        //Serial.println("AT86RF231 2.4 GHz radio detected.");
+        Serial.println("AT86RF231 2.4 GHz radio detected.");
 
 #if (CHIBI_PROMISCUOUS == 0)
     // set autocrc mode
@@ -745,7 +745,7 @@ static void chb_radio_init()
         // set default channel and tx power to max
         chb_set_channel(CHB_900MHZ_DEFAULT_CHANNEL);
         chb_reg_write(PHY_TX_PWR, CHB_900MHZ_TX_PWR);
-        //Serial.println("AT86RF212 900 MHz radio detected.");
+        Serial.println("AT86RF212 900 MHz radio detected.");
 
         // set crystal trim to improve signal reception
         // found that a value of 4 works well across all channels &
@@ -758,6 +758,8 @@ static void chb_radio_init()
         #endif
 
         #if ((FREAKDUINO_LONG_RANGE == 1) || (SABOTEN == 1))            
+
+          Serial.print("Long Range - ");
           // enable the rf front end controller
           tmp = chibiRegRead(TRX_CTRL1);
           tmp |= 0x80;
@@ -773,12 +775,15 @@ static void chb_radio_init()
 
           // enable the high gain mode pin on the rx amp
           #if (ARASHI_ENET_GATEWAY == 1)
+            Serial.println("ARASHI_ENET_GATEWAY");
             DDRC |= 1<<5;
             PORTC |= 1<<5; 
           #elif (SABOTEN == 1)
+            Serial.println("SABOTEN");
             DDRC |= 1<<6;
             PORTC |= 1<<6;
           #else
+            Serial.println("Default radio");
             DDRB |= 1<<7;
             PORTB |= (1<<7);
           #endif
